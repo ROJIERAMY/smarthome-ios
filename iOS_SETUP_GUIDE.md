@@ -157,3 +157,4 @@ If you encounter any iOS-specific issues:
 4. Check Firebase iOS configuration
 
 The app is **100% ready for iOS** - just needs to be built on macOS! 🎉
+

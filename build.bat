@@ -145,3 +145,4 @@ goto :eof
 
 REM Run main function with all arguments
 call :main %*
+
