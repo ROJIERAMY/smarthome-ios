@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,7 +56,10 @@ class AuthProvider with ChangeNotifier {
         };
       }
     } catch (e) {
-      print('Error loading user data: $e');
+      // Error loading user data - using debugPrint for development
+      if (kDebugMode) {
+        print('Error loading user data: $e');
+      }
       _userRole = 'user';
     }
   }
@@ -85,7 +89,9 @@ class AuthProvider with ChangeNotifier {
       
       return false;
     } on FirebaseAuthException catch (e) {
-      print('Firebase Auth Error: ${e.code} - ${e.message}');
+      if (kDebugMode) {
+        print('Firebase Auth Error: ${e.code} - ${e.message}');
+      }
       // Handle specific error codes
       switch (e.code) {
         case 'user-not-found':
@@ -96,7 +102,9 @@ class AuthProvider with ChangeNotifier {
           return false;
       }
     } catch (e) {
-      print('Login Error: $e');
+      if (kDebugMode) {
+        print('Login Error: $e');
+      }
       return false;
     }
   }
@@ -135,7 +143,9 @@ class AuthProvider with ChangeNotifier {
       
       return {'success': false, 'message': 'Registration failed'};
     } on FirebaseAuthException catch (e) {
-      print('Firebase Auth Error: ${e.code} - ${e.message}');
+      if (kDebugMode) {
+        print('Firebase Auth Error: ${e.code} - ${e.message}');
+      }
       String errorMessage = 'Registration failed';
       
       switch (e.code) {
@@ -157,7 +167,9 @@ class AuthProvider with ChangeNotifier {
       
       return {'success': false, 'message': errorMessage};
     } catch (e) {
-      print('Registration Error: $e');
+      if (kDebugMode) {
+        print('Registration Error: $e');
+      }
       return {'success': false, 'message': 'Registration failed: $e'};
     }
   }
