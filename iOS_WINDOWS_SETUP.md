@@ -1,0 +1,58 @@
+# iOS Build Setup Script for Windows Users
+
+echo "🍎 iOS Build Setup for Windows Users"
+echo "===================================="
+echo ""
+
+echo "📋 Your Options:"
+echo "1. GitHub Actions (FREE) - Recommended"
+echo "2. Codemagic (FREE tier) - Professional"
+echo "3. MacinCloud (PAID) - Full macOS access"
+echo ""
+
+echo "🚀 RECOMMENDED: GitHub Actions Setup"
+echo "===================================="
+echo ""
+echo "Step 1: Create GitHub Repository"
+echo "- Go to github.com"
+echo "- Create new repository: 'smarthome-ios'"
+echo "- Make it PUBLIC (required for free builds)"
+echo "- Don't initialize with README"
+echo ""
+
+echo "Step 2: Upload Your Project"
+echo "Run these commands in your project folder:"
+echo ""
+echo "git add ."
+echo "git commit -m 'Initial commit'"
+echo "git branch -M main"
+echo "git remote add origin https://github.com/YOURUSERNAME/smarthome-ios.git"
+echo "git push -u origin main"
+echo ""
+
+echo "Step 3: Build iOS App"
+echo "- Go to Actions tab in GitHub"
+echo "- Click on 'iOS Build' workflow"
+echo "- Watch the build process"
+echo "- Download artifacts when complete"
+echo ""
+
+echo "📱 What You'll Get:"
+echo "- iOS app built automatically"
+echo "- No macOS required"
+echo "- Free forever (for public repos)"
+echo "- Professional CI/CD pipeline"
+echo ""
+
+echo "⏱️ Total Time: 15 minutes"
+echo "💰 Cost: FREE"
+echo "🎯 Effort: Very Low"
+echo ""
+
+echo "📞 Need Help?"
+echo "- Check GITHUB_ACTIONS_SETUP.md for detailed guide"
+echo "- Check CODEMAGIC_SETUP.md for alternative"
+echo "- Check iOS_CLOUD_BUILD_GUIDE.md for all options"
+echo ""
+
+echo "🎉 Your iOS app will be ready in minutes!"
