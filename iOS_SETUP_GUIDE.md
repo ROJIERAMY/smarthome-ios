@@ -158,3 +158,4 @@ If you encounter any iOS-specific issues:
 
 The app is **100% ready for iOS** - just needs to be built on macOS! 🎉
 
+

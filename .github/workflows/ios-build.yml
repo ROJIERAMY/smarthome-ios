@@ -30,16 +30,16 @@ jobs:
     - name: Run Flutter tests
       run: flutter test
       
-    - name: Build iOS app
-      run: flutter build ios --release --no-codesign
+    - name: Build unsigned IPA (for AltStore)
+      run: flutter build ipa --release --no-codesign
       env:
         FLUTTER_BUILD_MODE: release
       
-    - name: Upload build artifacts
+    - name: Upload IPA artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ios-build-${{ github.run_number }}
-        path: build/ios/
+        name: ios-ipa-${{ github.run_number }}
+        path: build/ios/ipa/*.ipa
         retention-days: 30
         
     - name: Build summary
