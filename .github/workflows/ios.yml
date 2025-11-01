@@ -40,17 +40,7 @@ jobs:
           sudo gem install cocoapods
           pod install
 
-      - name: Build iOS (IPA)
-        run: flutter build ipa --release
-
-      - name: Upload IPA artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-ipa
-          path: build/ios/ipa/*.ipa
-          retention-days: 30
-
-      - name: Build iOS (App)
+      - name: Build iOS App (Unsigned)
         run: flutter build ios --release --no-codesign
 
       - name: Upload iOS App artifact
@@ -59,4 +49,19 @@ jobs:
           name: release-ios-app
           path: build/ios/iphoneos/Runner.app
           retention-days: 30
+
+      - name: Build iOS Simulator
+        run: flutter build ios --simulator --release
+
+      - name: Upload iOS Simulator artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-ios-simulator
+          path: build/ios/iphonesimulator/Runner.app
+          retention-days: 30
+
+      # Note: IPA builds require code signing certificates
+      # To enable IPA builds, add your Apple Developer certificates and
+      # provisioning profiles as GitHub Secrets and configure code signing
+      # See: https://docs.flutter.dev/deployment/ios#create-an-app-bundle
 
