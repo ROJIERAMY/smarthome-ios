@@ -1,0 +1,49 @@
+name: iOS Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: # Allow manual triggers
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.27.4'
+        channel: 'stable'
+        
+    - name: Install dependencies
+      run: flutter pub get
+      
+    - name: Run Flutter analyze
+      run: flutter analyze --no-fatal-infos
+      
+    - name: Run Flutter tests
+      run: flutter test
+      
+    - name: Build unsigned IPA (for AltStore)
+      run: flutter build ipa --release --no-codesign
+      env:
+        FLUTTER_BUILD_MODE: release
+      
+    - name: Upload IPA artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-ipa-${{ github.run_number }}
+        path: build/ios/ipa/*.ipa
+        retention-days: 30
+        
+    - name: Build summary
+      run: |
+        echo "✅ iOS build completed successfully!"
+        echo "📱 Build artifacts uploaded"
+        echo "📁 Download from Actions tab"
