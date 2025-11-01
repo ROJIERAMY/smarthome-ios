@@ -38,17 +38,15 @@ jobs:
         run: flutter doctor -v
 
       - name: Get dependencies
-        working-directory: ./smarthome
         run: flutter pub get
 
       - name: Build APK
-        working-directory: ./smarthome
         run: flutter build apk --release
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          path: smarthome/build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
           retention-days: 30
 

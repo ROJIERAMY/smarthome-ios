@@ -32,34 +32,31 @@ jobs:
         run: flutter doctor -v
 
       - name: Get dependencies
-        working-directory: ./smarthome
         run: flutter pub get
 
       - name: Install CocoaPods dependencies
-        working-directory: ./smarthome/ios
+        working-directory: ./ios
         run: |
           sudo gem install cocoapods
           pod install
 
       - name: Build iOS (IPA)
-        working-directory: ./smarthome
         run: flutter build ipa --release
 
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-ipa
-          path: smarthome/build/ios/ipa/*.ipa
+          path: build/ios/ipa/*.ipa
           retention-days: 30
 
       - name: Build iOS (App)
-        working-directory: ./smarthome
         run: flutter build ios --release --no-codesign
 
       - name: Upload iOS App artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-ios-app
-          path: smarthome/build/ios/iphoneos/Runner.app
+          path: build/ios/iphoneos/Runner.app
           retention-days: 30
 
