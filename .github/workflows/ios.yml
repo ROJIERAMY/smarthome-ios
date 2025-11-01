@@ -1,0 +1,65 @@
+name: Build iOS
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Verify Flutter installation
+        run: flutter doctor -v
+
+      - name: Get dependencies
+        working-directory: ./smarthome
+        run: flutter pub get
+
+      - name: Install CocoaPods dependencies
+        working-directory: ./smarthome/ios
+        run: |
+          sudo gem install cocoapods
+          pod install
+
+      - name: Build iOS (IPA)
+        working-directory: ./smarthome
+        run: flutter build ipa --release
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-ipa
+          path: smarthome/build/ios/ipa/*.ipa
+          retention-days: 30
+
+      - name: Build iOS (App)
+        working-directory: ./smarthome
+        run: flutter build ios --release --no-codesign
+
+      - name: Upload iOS App artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-ios-app
+          path: smarthome/build/ios/iphoneos/Runner.app
+          retention-days: 30
+

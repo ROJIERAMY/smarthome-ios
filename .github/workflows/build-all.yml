@@ -1,0 +1,82 @@
+name: Build All Platforms
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  android:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        working-directory: ./smarthome
+        run: flutter pub get
+
+      - name: Build APK
+        working-directory: ./smarthome
+        run: flutter build apk --release
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: smarthome/build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 30
+
+  ios:
+    name: Build iOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        working-directory: ./smarthome
+        run: flutter pub get
+
+      - name: Install CocoaPods dependencies
+        working-directory: ./smarthome/ios
+        run: |
+          sudo gem install cocoapods
+          pod install
+
+      - name: Build iOS (IPA)
+        working-directory: ./smarthome
+        run: flutter build ipa --release
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa
+          path: smarthome/build/ios/ipa/*.ipa
+          retention-days: 30
+
